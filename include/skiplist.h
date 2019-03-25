@@ -72,6 +72,15 @@ typedef struct _skiplist_node {
     atm_uint32_t accessing_next;
 } skiplist_node;
 
+typedef struct _skiplistkv {
+    skiplist_node node;
+    void *key;
+    void *value;
+} skiplistkv;
+
+skiplistkv* new_skiplistkv();
+void delete_skiplistkv(skiplistkv *kv);
+
 // *a  < *b : return neg
 // *a == *b : return 0
 // *a  > *b : return pos

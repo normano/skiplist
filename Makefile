@@ -1,16 +1,19 @@
+.PHONY : clean programs
 LDFLAGS = -pthread
 CFLAGS = \
-	-g -D_GNU_SOURCE \
+	-g3 -D_GNU_SOURCE \
 	-I. -I./src -I./debug -I./include -I./examples -I./tests \
 	-fPIC \
+	-lc++ \
+
+# ^ lc++ Might be an OSX only thing, need to make sure
 
 CFLAGS += -Wall
 CFLAGS += -O3
 #CFLAGS += -fsanitize=address -fuse-ld=gold
 
 CXXFLAGS = $(CFLAGS) \
-	--std=c++11 \
-
+	--std=c++14 \
 
 SKIPLIST = src/skiplist.o
 SHARED_LIB = libskiplist.so
@@ -58,7 +61,7 @@ PROGRAMS = \
 all: $(PROGRAMS)
 
 libskiplist.so: $(SKIPLIST)
-	$(CXX) $(CXXFLAGS) -shared $(LDBFALGS) -o $(SHARED_LIB) $(SKIPLIST)
+	$(CXX) $(CXXFLAGS) -shared $(LDFLAGS) -o $(SHARED_LIB) $(SKIPLIST)
 
 libskiplist.a: $(SKIPLIST)
 	ar rcs $(STATIC_LIB) $(SKIPLIST)

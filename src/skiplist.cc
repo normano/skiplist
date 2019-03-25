@@ -126,6 +126,20 @@ static inline void _sl_node_init(skiplist_node *node,
     }
 }
 
+skiplistkv* new_skiplistkv() {
+
+    skiplistkv* kvnode = (skiplistkv*) malloc(sizeof(skiplistkv));
+    // Initialize node.
+    skiplist_init_node(&kvnode->node);
+
+    return kvnode;
+}
+
+void delete_skiplistkv(skiplistkv *kv) {
+
+  free(kv);
+}
+
 void skiplist_init(skiplist_raw *slist,
                    skiplist_cmp_t *cmp_func) {
 
@@ -619,6 +633,7 @@ find_retry:
     int cmp = 0;
     int cur_layer = 0;
     skiplist_node *cur_node = &slist->head;
+
     ATM_FETCH_ADD(cur_node->ref_count, 1);
 
     __SLD_(size_t nh = 0);
